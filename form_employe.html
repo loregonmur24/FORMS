@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Defino el tipo de documento y configuro metadatos importantes -->
+    <meta charset="UTF-8"> <!-- Aseguro que se muestren correctamente los caracteres en español -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Hago que sea responsive en dispositivos móviles -->
+    <title>Registro de Empleados</title> <!-- Le pongo un título descriptivo a la página -->
+    
+    <!-- Aquí defino todos los estilos visuales para que el formulario se vea profesional -->
+    <style>
+        /* Configuro el cuerpo de la página con un fondo claro y centrado */
+        body {
+            font-family: Arial, sans-serif; /* Uso una fuente clara y legible */
+            max-width: 800px; /* Limito el ancho máximo para mejor lectura */
+            margin: 0 auto; /* Centro el contenido horizontalmente */
+            padding: 20px; /* Agrego espacio alrededor del contenido */
+            background-color: #f5f5f5; /* Pongo un fondo gris claro para contraste */
+        }
+        
+        /* Creo un contenedor blanco para el formulario con efectos visuales */
+        .container {
+            background-color: white; /* Fondo blanco para destacar el formulario */
+            padding: 30px; /* Espacio interno generoso */
+            border-radius: 10px; /* Esquinas redondeadas para un look moderno */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra sutil para profundidad */
+        }
+        
+        /* Estilizo el título principal */
+        h1 {
+            color: #2c3e50; /* Uso un azul oscuro profesional */
+            text-align: center; /* Centro el título */
+            margin-bottom: 30px; /* Separo el título del contenido siguiente */
+        }
+        
+        /* Configuro cada grupo de campos del formulario */
+        .form-group {
+            margin-bottom: 20px; /* Dejo espacio entre cada campo */
+        }
+        
+        /* Defino cómo se ven las etiquetas de los campos */
+        label {
+            display: block; /* Hago que cada etiqueta ocupe su propia línea */
+            margin-bottom: 5px; /* Separo la etiqueta del campo */
+            font-weight: bold; /* Resalto las etiquetas en negrita */
+            color: #34495e; /* Uso un color gris azulado */
+        }
+        
+        /* Estilo común para todos los campos de entrada */
+        input, select, textarea {
+            width: 100%; /* Ocupan todo el ancho disponible */
+            padding: 10px; /* Espacio interno cómodo para escribir */
+            border: 1px solid #ddd; /* Borde gris claro */
+            border-radius: 5px; /* Esquinas ligeramente redondeadas */
+            font-size: 16px; /* Tamaño de fuente legible */
+            box-sizing: border-box; /* Incluyo padding y border en el ancho total */
+        }
+        
+        /* Organizo los campos en filas de dos columnas */
+        .form-row {
+            display: flex; /* Uso flexbox para alinear horizontalmente */
+            gap: 15px; /* Espacio entre columnas */
+        }
+        
+        /* Cada grupo de campos dentro de una fila ocupa igual espacio */
+        .form-row .form-group {
+            flex: 1; /* Distribuyo el espacio equitativamente */
+        }
+        
+        /* Estilizo el botón de envío */
+        button {
+            background-color: #3498db; /* Azul llamativo pero profesional */
+            color: white; /* Texto blanco para contraste */
+            padding: 12px 30px; /* Espaciado generoso */
+            border: none; /* Quito el borde por defecto */
+            border-radius: 5px; /* Esquinas redondeadas */
+            cursor: pointer; /* Cambio el cursor al pasar sobre el botón */
+            font-size: 16px; /* Tamaño de fuente legible */
+            width: 100%; /* Ocupa todo el ancho disponible */
+        }
+        
+        /* Efecto hover para el botón */
+        button:hover {
+            background-color: #2980b9; /* Azul más oscuro al pasar el mouse */
+        }
+        
+        /* Contenedor para mostrar los resultados del registro */
+        #resultado {
+            margin-top: 30px; /* Separo del formulario */
+            padding: 20px; /* Espacio interno */
+            border: 1px solid #ddd; /* Borde sutil */
+            border-radius: 5px; /* Esquinas redondeadas */
+            background-color: #ecf0f1; /* Fondo gris muy claro */
+            display: none; /* Lo oculto inicialmente hasta que se envíe el formulario */
+        }
+        
+        /* Estilo para la información del empleado registrado */
+        .empleado-info {
+            background-color: white; /* Fondo blanco para destacar la información */
+            padding: 15px; /* Espacio interno */
+            border-radius: 5px; /* Esquinas redondeadas */
+            margin-top: 10px; /* Separación del título */
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal que envuelve todo el contenido -->
+    <div class="container">
+        <h1>📋 Registro de Empleados</h1> <!-- Título con un emoji para hacerlo más amigable -->
+        
+        <!-- Formulario principal con ID para manipularlo con JavaScript -->
+        <form id="formularioEmpleado">
+            <!-- Primera fila de campos: Nombre y Apellido -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required> <!-- Campo obligatorio -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" required> <!-- Campo obligatorio -->
+                </div>
+            </div>
+
+            <!-- Segunda fila: Email y Teléfono -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email corporativo:</label>
+                    <input type="email" id="email" name="email" required> <!-- Validación automática de email -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" required> <!-- Tipo tel para dispositivos móviles -->
+                </div>
+            </div>
+
+            <!-- Tercera fila: Departamento y Cargo -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="departamento">Departamento:</label>
+                    <select id="departamento" name="departamento" required>
+                        <option value="">-- Seleccione departamento --</option>
+                        <option value="ventas">Ventas</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="it">TI - Tecnologías de la Información</option>
+                        <option value="rrhh">Recursos Humanos</option>
+                        <option value="finanzas">Finanzas</option>
+                        <option value="operaciones">Operaciones</option>
+                        <option value="gerencia">Gerencia</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cargo">Cargo/Puesto:</label>
+                    <input type="text" id="cargo" name="cargo" required>
+                </div>
+            </div>
+
+            <!-- Cuarta fila: Fecha de ingreso y Salario -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fecha_ingreso">Fecha de Ingreso:</label>
+                    <input type="date" id="fecha_ingreso" name="fecha_ingreso" required> <!-- Selector de fecha nativo -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="salario">Salario ($):</label>
+                    <input type="number" id="salario" name="salario" min="0" step="0.01" required> <!-- Acepto decimales -->
+                </div>
+            </div>
+
+            <!-- Tipo de contrato (ocupa toda la fila) -->
+            <div class="form-group">
+                <label for="tipo_contrato">Tipo de Contrato:</label>
+                <select id="tipo_contrato" name="tipo_contrato" required>
+                    <option value="">-- Seleccione tipo de contrato --</option>
+                    <option value="tiempo_completo">Tiempo Completo</option>
+                    <option value="medio_tiempo">Medio Tiempo</option>
+                    <option value="temporal">Temporal</option>
+                    <option value="practicante">Practicante</option>
+                </select>
+            </div>
+
+            <!-- Dirección (textarea para texto multilínea) -->
+            <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <textarea id="direccion" name="direccion" rows="3"></textarea> <!-- No es obligatoria -->
+            </div>
+
+            <!-- Estado del empleado (botones de opción) -->
+            <div class="form-group">
+                <label>Estado del Empleado:</label><br>
+                <input type="radio" id="activo" name="estado" value="activo" checked> <!-- Seleccionado por defecto -->
+                <label for="activo">Activo</label>
+                
+                <input type="radio" id="inactivo" name="estado" value="inactivo">
+                <label for="inactivo">Inactivo</label>
+                
+                <input type="radio" id="vacaciones" name="estado" value="vacaciones">
+                <label for="vacaciones">En Vacaciones</label>
+            </div>
+
+            <!-- Botón para enviar el formulario -->
+            <button type="submit">Registrar Empleado</button>
+        </form>
+
+        <!-- Sección que mostraré después de registrar un empleado -->
+        <div id="resultado">
+            <h2>👤 Información del Empleado Registrado</h2>
+            <div class="empleado-info" id="infoEmpleado"></div> <!-- Aquí inyectaré la información con JavaScript -->
+        </div>
+    </div>
+
+    <!-- Código JavaScript para manejar el envío del formulario -->
+    <script>
+        // Escucho el evento de envío del formulario
+        document.getElementById('formularioEmpleado').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevengo el envío tradicional para manejar todo con JavaScript
+            
+            // Creo un objeto con todos los datos del formulario
+            const empleado = {
+                nombre: document.getElementById('nombre').value,
+                apellido: document.getElementById('apellido').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                departamento: document.getElementById('departamento').value,
+                cargo: document.getElementById('cargo').value,
+                fecha_ingreso: document.getElementById('fecha_ingreso').value,
+                salario: parseFloat(document.getElementById('salario').value).toLocaleString('es-ES', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }), // Formateo el salario con separadores de miles y dos decimales
+                tipo_contrato: document.getElementById('tipo_contrato').value,
+                direccion: document.getElementById('direccion').value,
+                estado: document.querySelector('input[name="estado"]:checked').value // Obtengo el botón seleccionado
+            };
+            
+            // Convierto la fecha a un formato legible en español
+            const fechaFormateada = new Date(empleado.fecha_ingreso).toLocaleDateString('es-ES');
+            
+            // Construyo el mensaje HTML con toda la información del empleado
+            const mensaje = `
+                <strong>Nombre completo:</strong> ${empleado.nombre} ${empleado.apellido}<br>
+                <strong>Email:</strong> ${empleado.email}<br>
+                <strong>Teléfono:</strong> ${empleado.telefono}<br>
+                <strong>Departamento:</strong> ${empleado.departamento}<br>
+                <strong>Cargo:</strong> ${empleado.cargo}<br>
+                <strong>Fecha de ingreso:</strong> ${fechaFormateada}<br>
+                <strong>Salario:</strong> $${empleado.salario}<br>
+                <strong>Tipo de contrato:</strong> ${empleado.tipo_contrato}<br>
+                <strong>Dirección:</strong> ${empleado.direccion || 'No especificada'}<br> <!-- Muestro un texto por defecto si está vacío -->
+                <strong>Estado:</strong> ${empleado.estado}<br><br>
+                <em>Empleado registrado exitosamente ✅</em> <!-- Mensaje de confirmación -->
+            `;
+            
+            // Inserto el mensaje en el contenedor de resultados
+            document.getElementById('infoEmpleado').innerHTML = mensaje;
+            // Muestro la sección de resultados (antes estaba oculta)
+            document.getElementById('resultado').style.display = 'block';
+            
+            // Si quisiera, podría limpiar el formulario aquí después del envío:
+            // document.getElementById('formularioEmpleado').reset();
+        });
+    </script>
+</body>
+</html>
