@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Establezco la codificación UTF-8 para asegurar que los emojis y caracteres en español se muestren correctamente -->
+    <meta charset="UTF-8">
+    <!-- Configuro la vista responsive para que se adapte bien a dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Pongo un título descriptivo y atractivo para la página -->
+    <title>Selección de Frutas</title>
+    
+    <!-- Aquí defino todos los estilos que harán que el formulario sea visualmente atractivo y fácil de usar -->
+    <style>
+        /* Configuro el cuerpo principal de la página */
+        body {
+            font-family: Arial, sans-serif; /* Uso Arial porque es una fuente limpia y legible en todos los dispositivos */
+            max-width: 600px; /* Limito el ancho máximo para que no se extienda demasiado en pantallas grandes */
+            margin: 50px auto; /* Centro la página horizontalmente y dejo 50px de margen superior */
+            padding: 20px; /* Agrego espacio interno alrededor del contenido */
+        }
+        
+        /* Defino el estilo para cada grupo de campos del formulario */
+        .form-group {
+            margin-bottom: 15px; /* Dejo espacio entre cada grupo de campos */
+        }
+        
+        /* Estilizo las etiquetas para que sean claras y fáciles de leer */
+        label {
+            display: block; /* Hago que cada etiqueta ocupe su propia línea */
+            margin-bottom: 5px; /* Separo la etiqueta del campo de entrada */
+        }
+        
+        /* Estilo común para todos los elementos de entrada */
+        select, input, button {
+            width: 100%; /* Hago que ocupen todo el ancho disponible */
+            padding: 8px; /* Agrego espacio interno para que sea cómodo tocar/clickear */
+            margin-bottom: 10px; /* Dejo espacio entre elementos */
+        }
+        
+        /* Personalizo el botón de envío para que sea llamativo pero no agresivo */
+        button {
+            background-color: #4CAF50; /* Uso un verde amigable que sugiere "acción positiva" */
+            color: white; /* Texto blanco para buen contraste */
+            border: none; /* Elimino el borde por defecto */
+            padding: 10px; /* Un poco más de padding para hacerlo más táctil */
+            cursor: pointer; /* Cambio el cursor a una manita para indicar que es clickeable */
+        }
+        
+        /* Agrego un efecto visual cuando el usuario pasa el mouse sobre el botón */
+        button:hover {
+            background-color: #45a049; /* Un verde un poco más oscuro para el efecto hover */
+        }
+        
+        /* Estilizo el área donde mostraré los resultados */
+        #resultado {
+            margin-top: 20px; /* Separo los resultados del formulario */
+            padding: 15px; /* Agrego espacio interno */
+            border: 1px solid #ddd; /* Un borde sutil para delimitar el área */
+            background-color: #f9f9f9; /* Un fondo gris muy claro para diferenciarlo */
+        }
+    </style>
+</head>
+<body>
+    <!-- Uso un título con emoji para hacerlo más atractivo y relacionado con frutas -->
+    <h1>🍎 Selecciona tus Frutas Favoritas</h1>
+    
+    <!-- Este es el formulario principal que el usuario completará -->
+    <form id="formularioFrutas">
+        <!-- Primer campo: Nombre del usuario -->
+        <div class="form-group">
+            <label for="nombre">Tu nombre:</label>
+            <input type="text" id="nombre" name="nombre" required> <!-- El atributo required obliga al usuario a completar este campo -->
+        </div>
+
+        <!-- Segundo campo: Selección de fruta con emojis para hacerlo visual -->
+        <div class="form-group">
+            <label for="fruta">Elige tu fruta favorita:</label>
+            <select id="fruta" name="fruta" required>
+                <option value="">-- Selecciona una fruta --</option> <!-- Opción vacía por defecto -->
+                <option value="manzana">🍎 Manzana</option> <!-- Cada opción tiene un emoji y texto -->
+                <option value="naranja">🍊 Naranja</option>
+                <option value="platano">🍌 Plátano</option>
+                <option value="fresa">🍓 Fresa</option>
+                <option value="uva">🍇 Uva</option>
+                <option value="sandia">🍉 Sandía</option>
+                <option value="piña">🍍 Piña</option>
+            </select>
+        </div>
+
+        <!-- Tercer campo: Cantidad con límites para controlar valores razonables -->
+        <div class="form-group">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" name="cantidad" min="1" max="10" value="1" required>
+            <!-- Uso min="1" y max="10" para evitar números negativos o cantidades excesivas -->
+            <!-- value="1" establece un valor por defecto -->
+        </div>
+
+        <!-- Cuarto campo: Preferencia de consumo usando botones de radio -->
+        <div class="form-group">
+            <label>¿Cómo la prefieres?</label><br> <!-- El <br> me ayuda a separar la pregunta de las opciones -->
+            <input type="radio" id="fresca" name="preferencia" value="fresca" checked> <!-- "checked" marca esta como seleccionada por defecto -->
+            <label for="fresca">Fresca</label><br> <!-- Cada <br> separa las opciones verticalmente -->
+            
+            <input type="radio" id="jugo" name="preferencia" value="jugo">
+            <label for="jugo">En jugo</label><br>
+            
+            <input type="radio" id="ensalada" name="preferencia" value="ensalada">
+            <label for="ensalada">En ensalada</label>
+        </div>
+
+        <!-- Botón para enviar el formulario -->
+        <button type="submit">Enviar Selección</button>
+    </form>
+
+    <!-- Esta sección la mantengo oculta inicialmente y la mostraré después de enviar el formulario -->
+    <div id="resultado" style="display: none;">
+        <h2>Tu Selección:</h2>
+        <p id="infoSeleccion"></p> <!-- Aquí inyectaré dinámicamente la información con JavaScript -->
+    </div>
+
+    <!-- JavaScript que maneja la lógica cuando el usuario envía el formulario -->
+    <script>
+        // Escucho el evento "submit" del formulario para capturar cuando el usuario quiere enviar sus datos
+        document.getElementById('formularioFrutas').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevengo el comportamiento por defecto (recargar la página) para manejar todo con JavaScript
+            
+            // Capturo todos los valores que el usuario ingresó en el formulario
+            const nombre = document.getElementById('nombre').value;
+            const fruta = document.getElementById('fruta').value;
+            const cantidad = document.getElementById('cantidad').value;
+            const preferencia = document.querySelector('input[name="preferencia"]:checked').value; // Selecciono solo el botón de radio que está marcado
+            
+            // Construyo un mensaje personalizado con la información capturada
+            const mensaje = `
+                <strong>Hola ${nombre}!</strong><br><br>
+                Has seleccionado:<br>
+                • Fruta: ${fruta}<br>
+                • Cantidad: ${cantidad}<br>
+                • Preferencia: ${preferencia}<br><br>
+                ¡Disfruta tus frutas! 🍓
+            `;
+            
+            // Inyecto el mensaje en el elemento HTML correspondiente
+            document.getElementById('infoSeleccion').innerHTML = mensaje;
+            // Muestro la sección de resultados que antes estaba oculta (display: none)
+            document.getElementById('resultado').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
